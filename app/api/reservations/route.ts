@@ -3,9 +3,16 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions)
+    console.log('🔍 Session récupérée:', session ? 'OUI' : 'NON')
+    if (session) {
+      console.log('👤 Role utilisateur:', session.user?.role)
+      console.log('🆔 ID utilisateur:', session.user?.id)
+    }
 
     if (!session || session.user.role !== 'CLIENT') {
       return NextResponse.json(
