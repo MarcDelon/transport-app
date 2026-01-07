@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Ticket, CheckCircle, XCircle, Clock } from 'lucide-react'
 
 interface Reservation {
@@ -31,21 +31,7 @@ export default function AdminReservationsPage() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<string>('')
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/connexion')
-      return
-    }
-
-    if (session?.user?.role !== 'ADMIN') {
-      router.push('/client/dashboard')
-      return
-    }
-
-    fetchReservations()
-  }, [session, status, router, filter])
-
-  const fetchReservations = async () => {
+  const fetchReservations = useCallback(async () => {
     try {
       const url = filter
         ? `/api/admin/reservations?statut=${filter}`
@@ -58,7 +44,21 @@ export default function AdminReservationsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [filter])
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/connexion')
+      return
+    }
+
+    if (session?.user?.role !== 'ADMIN') {
+      router.push('/client/dashboard')
+      return
+    }
+
+    fetchReservations()
+  }, [session, status, router, filter, fetchReservations])
 
   const updateStatut = async (reservationId: string, nouveauStatut: string) => {
     try {

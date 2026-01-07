@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useParams } from 'next/navigation'
 import { MapPin, Calendar, Users, DollarSign, User } from 'lucide-react'
@@ -29,15 +29,7 @@ export default function ReservationDetailPage() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
 
-  useEffect(() => {
-    if (!session) {
-      router.push('/connexion?redirect=/reservation/' + params.id)
-      return
-    }
-    fetchHoraire()
-  }, [params.id, session, router])
-
-  const fetchHoraire = async () => {
+  const fetchHoraire = useCallback(async () => {
     try {
       const response = await fetch(`/api/horaires/${params.id}`)
       const data = await response.json()
@@ -47,7 +39,15 @@ export default function ReservationDetailPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.id])
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/connexion?redirect=/reservation/' + params.id)
+      return
+    }
+    fetchHoraire()
+  }, [session, router, fetchHoraire])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

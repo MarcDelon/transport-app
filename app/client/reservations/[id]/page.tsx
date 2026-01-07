@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useParams } from 'next/navigation'
 import { MapPin, Calendar, Users, Ticket, Download } from 'lucide-react'
@@ -30,15 +30,7 @@ export default function ReservationDetailPage() {
   const [reservation, setReservation] = useState<Reservation | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!session) {
-      router.push('/connexion')
-      return
-    }
-    fetchReservation()
-  }, [params.id, session, router])
-
-  const fetchReservation = async () => {
+  const fetchReservation = useCallback(async () => {
     try {
       const response = await fetch(`/api/client/reservations/${params.id}`)
       if (!response.ok) {
@@ -52,7 +44,15 @@ export default function ReservationDetailPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.id, router])
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/connexion')
+      return
+    }
+    fetchReservation()
+  }, [session, fetchReservation])
 
   if (loading) {
     return (

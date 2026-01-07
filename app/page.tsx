@@ -342,7 +342,7 @@ export default function Home() {
               Prêt à voyager ?
             </h2>
             <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-blue-100 max-w-2xl mx-auto px-2">
-              Rejoignez des milliers de voyageurs satisfaits. Créez un compte gratuitement et commencez à réserver vos trajets dès aujourd'hui.
+              Rejoignez des milliers de voyageurs satisfaits. Créez un compte gratuitement et commencez à réserver vos trajets dès aujourd’hui.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
