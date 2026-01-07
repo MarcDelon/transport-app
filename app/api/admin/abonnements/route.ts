@@ -1,7 +1,23 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { supabase } from '@/lib/supabase'
+
+interface User {
+  nom: string;
+  prenom: string;
+  email: string;
+}
+
+interface Abonnement {
+  id: string;
+  type: string;
+  dateDebut: string;
+  dateFin: string;
+  reduction: number;
+  trajetsInclus: number | null;
+  user: User;
+}
 
 export async function GET() {
   try {
@@ -14,26 +30,23 @@ export async function GET() {
       )
     }
 
-    const abonnements = await prisma.abonnement.findMany({
-      include: {
-        user: {
-          select: {
-            nom: true,
-            prenom: true,
-            email: true,
-          },
-        },
-      },
-      orderBy: {
-        dateDebut: 'desc',
-      },
-    })
+    const { data: abonnements, error } = await supabase
+      .from('Abonnement')
+      .select(`
+        *,
+        user:User (nom, prenom, email)
+      `)
+      .order('dateDebut', { ascending: false })
 
-    return NextResponse.json(abonnements.map(a => ({
+    if (error) {
+      throw error
+    }
+
+    return NextResponse.json(abonnements.map((a: Abonnement) => ({
       id: a.id,
       type: a.type,
-      dateDebut: a.dateDebut.toISOString(),
-      dateFin: a.dateFin.toISOString(),
+      dateDebut: a.dateDebut,
+      dateFin: a.dateFin,
       reduction: a.reduction,
       trajetsInclus: a.trajetsInclus,
       user: a.user,

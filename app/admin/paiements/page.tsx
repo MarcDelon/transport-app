@@ -144,10 +144,10 @@ export default function AdminPaiementsPage() {
                   <tr key={paiement.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {paiement.user.prenom} {paiement.user.nom}
+                        {paiement.user ? `${paiement.user.prenom} ${paiement.user.nom}` : 'Utilisateur supprimé'}
                       </div>
                       <div className="text-sm text-gray-500">
-                        {paiement.user.email}
+                        {paiement.user ? paiement.user.email : 'N/A'}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

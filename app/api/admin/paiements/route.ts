@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { supabase } from '@/lib/supabase'
 
 export async function GET() {
   try {
@@ -14,43 +14,27 @@ export async function GET() {
       )
     }
 
-    const paiements = await prisma.paiement.findMany({
-      include: {
-        user: {
-          select: {
-            nom: true,
-            prenom: true,
-            email: true,
-          },
-        },
-        reservation: {
-          include: {
-            horaire: {
-              include: {
-                trajet: {
-                  select: {
-                    villeDepart: true,
-                    villeArrivee: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-      orderBy: {
-        datePaiement: 'desc',
-      },
-    })
+    const { data: paiements, error } = await supabase
+      .from('Paiement')
+      .select(`
+        *,
+        User:userId (nom, prenom, email),
+        Reservation (id, nombrePlaces, Horaire (id, Trajet (villeDepart, villeArrivee)))
+      `)
+      .order('datePaiement', { ascending: false })
 
-    const totalRevenus = paiements.reduce((sum, p) => sum + p.montant, 0)
+    if (error) {
+      throw error
+    }
+
+    const totalRevenus = paiements.reduce((sum, p) => sum + parseFloat(p.montant), 0)
 
     return NextResponse.json({
       paiements: paiements.map(p => ({
         id: p.id,
-        montant: p.montant,
+        montant: parseFloat(p.montant),
         methodePaiement: p.methodePaiement,
-        datePaiement: p.datePaiement.toISOString(),
+        datePaiement: new Date(p.datePaiement).toISOString(),
         numeroFacture: p.numeroFacture,
         user: p.user,
         reservation: {
@@ -61,6 +45,7 @@ export async function GET() {
           },
         },
       })),
+
       totalRevenus,
     })
   } catch (error) {

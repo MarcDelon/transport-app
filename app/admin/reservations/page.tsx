@@ -190,10 +190,10 @@ export default function AdminReservationsPage() {
                   <tr key={reservation.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {reservation.user.prenom} {reservation.user.nom}
+                        {reservation.user ? `${reservation.user.prenom} ${reservation.user.nom}` : 'Utilisateur supprimé'}
                       </div>
                       <div className="text-sm text-gray-500">
-                        {reservation.user.email}
+                        {reservation.user ? reservation.user.email : 'N/A'}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

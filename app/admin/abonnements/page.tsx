@@ -106,10 +106,10 @@ export default function AdminAbonnementsPage() {
                         <User className="w-5 h-5 text-blue-600" />
                         <div>
                           <div className="text-sm font-medium text-gray-900">
-                            {abonnement.user.prenom} {abonnement.user.nom}
+                            {abonnement.user ? `${abonnement.user.prenom} ${abonnement.user.nom}` : 'Utilisateur supprimé'}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {abonnement.user.email}
+                            {abonnement.user ? abonnement.user.email : 'N/A'}
                           </div>
                         </div>
                       </div>
