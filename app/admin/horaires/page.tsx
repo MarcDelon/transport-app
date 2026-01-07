@@ -283,7 +283,7 @@ export default function AdminHorairesPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Date et heure d'arrivée
+                  Date et heure d&#39;arrivée
                 </label>
                 <input
                   type="datetime-local"

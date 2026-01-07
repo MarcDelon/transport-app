@@ -316,7 +316,7 @@ export default function Home() {
                     <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 italic">"{testimonial.comment}"</p>
+                <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 italic">&quot;{testimonial.comment}&quot;</p>
                 <div>
                   <div className="font-semibold text-sm sm:text-base text-gray-900">{testimonial.name}</div>
                   <div className="text-xs sm:text-sm text-gray-500">{testimonial.role}</div>

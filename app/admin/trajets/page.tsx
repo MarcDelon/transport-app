@@ -185,7 +185,7 @@ export default function AdminTrajetsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Ville d'arrivée
+                  Ville d&#39;arrivée
                 </label>
                 <input
                   type="text"

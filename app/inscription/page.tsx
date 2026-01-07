@@ -189,7 +189,7 @@ export default function InscriptionPage() {
             </div>
             <div>
               <label htmlFor="pieceIdentite" className="block text-sm font-medium text-gray-700">
-                Numéro de pièce d'identité (optionnel)
+                Numéro de pièce d&#39;identité (optionnel)
               </label>
               <input
                 id="pieceIdentite"

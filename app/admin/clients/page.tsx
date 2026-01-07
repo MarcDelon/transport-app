@@ -80,10 +80,10 @@ export default function AdminClientsPage() {
                     Contact
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Pièce d'identité
+                    Pièce d&#39;identité
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date d'inscription
+                    Date d&#39;inscription
                   </th>
                 </tr>
               </thead>

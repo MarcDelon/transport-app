@@ -179,7 +179,7 @@ export default function AdminVehiculesPage() {
             <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Numéro d'immatriculation
+                  Numéro d&#39;immatriculation
                 </label>
                 <input
                   type="text"

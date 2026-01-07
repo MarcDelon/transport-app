@@ -85,7 +85,7 @@ export default function ReservationPage() {
   }
 
   const handleReserver = (horaireId: string) => {
-    if (!session || status === 'unauthenticated') {
+    if (!session) {
       router.push('/connexion?redirect=/reservation')
       return
     }
@@ -93,7 +93,7 @@ export default function ReservationPage() {
   }
 
   // Afficher un message si non connecté
-  if (status === 'unauthenticated') {
+  if (status === 'unauthenticated' || !session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -162,7 +162,7 @@ export default function ReservationPage() {
               <div className="relative">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   <MapPin className="w-4 h-4 inline mr-2 text-green-600" />
-                  Ville d'arrivée
+                  Ville d&#39;arrivée
                 </label>
                 <input
                   type="text"
@@ -210,7 +210,7 @@ export default function ReservationPage() {
           >
             <Bus className="w-20 h-20 mx-auto mb-4 text-gray-400" />
             <p className="text-xl text-gray-600 font-medium">Aucun trajet trouvé pour cette recherche</p>
-            <p className="text-gray-500 mt-2">Essayez avec d'autres villes ou dates</p>
+            <p className="text-gray-500 mt-2">Essayez avec d&#39;autres villes ou dates</p>
           </motion.div>
         )}
 
