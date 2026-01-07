@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 
+export const dynamic = 'force-dynamic'
+
 interface User {
   nom: string;
   prenom: string;
