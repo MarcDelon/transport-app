@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Bus, MapPin, Clock, Shield, Ticket, Users, Star, ArrowRight, CheckCircle, TrendingUp } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Logo from '@/components/Logo'
@@ -200,9 +201,11 @@ export default function Home() {
               className="relative order-2 md:order-1"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80"
                   alt="Bus moderne"
+                  width={800}
+                  height={500}
                   className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>

@@ -17,7 +17,7 @@ export async function GET() {
     } else {
       console.log(`📊 ${allTrajets?.length || 0} trajets au total dans la base`)
       if (allTrajets && allTrajets.length > 0) {
-        const statuts = [...new Set(allTrajets.map(t => t.statut))]
+        const statuts = Array.from(new Set(allTrajets.map(t => t.statut)))
         console.log('   Statuts trouvés:', statuts)
       }
     }

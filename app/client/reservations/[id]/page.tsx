@@ -52,7 +52,7 @@ export default function ReservationDetailPage() {
       return
     }
     fetchReservation()
-  }, [session, fetchReservation])
+  }, [session, fetchReservation, router])
 
   if (loading) {
     return (

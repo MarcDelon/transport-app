@@ -47,7 +47,7 @@ export default function ReservationDetailPage() {
       return
     }
     fetchHoraire()
-  }, [session, router, fetchHoraire])
+  }, [session, router, fetchHoraire, params.id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
