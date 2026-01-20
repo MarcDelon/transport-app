@@ -6,27 +6,44 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    console.log('🔍 Recherche horaire:', params.id)
+
     const { data: horaire, error: horaireError } = await supabase
       .from('Horaire')
       .select(`
         *,
-        Trajet (*)
+        trajet:Trajet!trajetId (
+          id,
+          villeDepart,
+          villeArrivee,
+          distance,
+          dureeEstimee,
+          tarifBase
+        ),
+        vehicule:Vehicule!vehiculeId (
+          capaciteMaximale
+        )
       `)
       .eq('id', params.id)
       .single()
 
-    if (horaireError || !horaire) {
+    if (horaireError) {
+      console.error('❌ Erreur Supabase:', horaireError)
       return NextResponse.json(
         { error: 'Horaire non trouvé' },
         { status: 404 }
       )
     }
 
-    const { data: vehicule } = await supabase
-      .from('Vehicule')
-      .select('capaciteMaximale')
-      .eq('id', horaire.vehiculeId)
-      .single()
+    if (!horaire) {
+      console.log('❌ Horaire non trouvé')
+      return NextResponse.json(
+        { error: 'Horaire non trouvé' },
+        { status: 404 }
+      )
+    }
+
+    console.log('✅ Horaire trouvé:', horaire.id)
 
     const { data: reservations } = await supabase
       .from('Reservation')
@@ -39,13 +56,16 @@ export async function GET(
       0
     ) || 0
 
-    const placesDisponibles = (vehicule?.capaciteMaximale || 0) - placesReservees
+    const capaciteMaximale = (horaire.vehicule as any)?.capaciteMaximale || 0
+    const placesDisponibles = capaciteMaximale - placesReservees
+
+    console.log('📊 Places:', { capaciteMaximale, placesReservees, placesDisponibles })
 
     return NextResponse.json({
       id: horaire.id,
       dateDepart: horaire.dateDepart,
       dateArrivee: horaire.dateArrivee,
-      trajet: horaire.Trajet,
+      trajet: horaire.trajet,
       placesDisponibles: Math.max(0, placesDisponibles),
     })
   } catch (error) {

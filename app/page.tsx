@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Bus, MapPin, Clock, Shield, Ticket, Users, Star, ArrowRight, CheckCircle, TrendingUp } from 'lucide-react'
+import { Bus, MapPin, Clock, Shield, Ticket, Users, Star, ArrowRight, CheckCircle, TrendingUp, Wifi, Snowflake, Headphones } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Logo from '@/components/Logo'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Home() {
+  const { t, language } = useLanguage()
   const features = [
     {
       icon: Bus,
@@ -63,7 +65,7 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section avec image de fond */}
       <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-12 sm:py-16 md:py-24 overflow-hidden">
         {/* Image de fond avec overlay */}
@@ -97,7 +99,7 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link
                   href="/reservation"
-                  className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3 sm:py-4 font-bold text-base sm:text-lg hover:bg-yellow-300 transition shadow-md border-2 border-blue-900 flex items-center gap-2 justify-center windows-button w-full sm:w-auto"
+                  className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-base sm:text-lg hover:bg-yellow-300 transition-all apple-button flex items-center gap-2 justify-center w-full sm:w-auto"
                 >
                   Réserver maintenant
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -106,7 +108,7 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link
                   href="/trajets"
-                  className="bg-white/10 backdrop-blur-sm text-white px-6 sm:px-8 py-3 sm:py-4 font-bold text-base sm:text-lg hover:bg-white/20 transition border-2 border-white/50 flex items-center gap-2 justify-center w-full sm:w-auto"
+                  className="apple-glass text-white px-6 sm:px-8 py-3 sm:py-4 font-semibold text-base sm:text-lg hover:bg-white/30 transition-all rounded-apple flex items-center gap-2 justify-center w-full sm:w-auto border border-white/30"
                 >
                   Voir les trajets
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -125,7 +127,7 @@ export default function Home() {
       </section>
 
       {/* Statistiques */}
-      <section className="py-8 sm:py-12 md:py-16 bg-white">
+      <section className="py-8 sm:py-12 md:py-16 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {stats.map((stat, index) => (
@@ -137,10 +139,10 @@ export default function Home() {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">
                   {stat.number}
                 </div>
-                <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">{stat.label}</div>
+                <div className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -148,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* Features Section avec images */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -156,11 +158,11 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
-              Pourquoi nous choisir ?
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+              {t('features.title')}
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-2">
-              Nous offrons le meilleur service de transport interurbain avec confort et sécurité
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-2">
+              {language === 'fr' ? 'Nous offrons le meilleur service de transport interurbain avec confort et sécurité' : 'We offer the best intercity transport service with comfort and safety'}
             </p>
           </motion.div>
 
@@ -173,15 +175,15 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -10 }}
-                className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hover:shadow-2xl transition-all duration-300 group"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all group border border-gray-100 dark:border-gray-700"
               >
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br ${feature.color} p-3 sm:p-4 mb-4 sm:mb-6 group-hover:scale-110 transition-transform`}>
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${feature.color} p-3 sm:p-4 mb-4 sm:mb-6 group-hover:scale-110 transition-transform`}>
                   <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
@@ -191,7 +193,7 @@ export default function Home() {
       </section>
 
       {/* Section avec image et avantages */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
+      <section className="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
             <motion.div
@@ -228,10 +230,10 @@ export default function Home() {
               viewport={{ once: true }}
               className="order-1 md:order-2"
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-                Voyagez dans les meilleures conditions
-              </h2>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">
+              {language === 'fr' ? 'Voyagez dans les meilleures conditions' : 'Travel in the best conditions'}
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-8">
                 Nous mettons tout en œuvre pour rendre votre voyage agréable et mémorable.
                 Découvrez tous les avantages inclus dans votre billet.
               </p>
@@ -246,7 +248,7 @@ export default function Home() {
                     className="flex items-start gap-2 sm:gap-3"
                   >
                     <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm sm:text-base text-gray-700">{advantage}</span>
+                    <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{advantage}</span>
                   </motion.div>
                 ))}
               </div>
@@ -257,7 +259,7 @@ export default function Home() {
               >
                 <Link
                   href="/reservation"
-                  className="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 font-semibold text-sm sm:text-base hover:bg-blue-700 transition border border-blue-700 shadow-sm windows-button"
+                  className="inline-flex items-center gap-2 apple-button apple-button-primary text-white px-5 py-2.5 sm:px-6 sm:py-3 font-semibold text-sm sm:text-base"
                 >
                   Réserver maintenant
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -269,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* Section témoignages */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -277,11 +279,11 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
-              Ce que disent nos clients
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+              {language === 'fr' ? 'Ce que disent nos clients' : 'What our customers say'}
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-2">
-              Des milliers de voyageurs nous font confiance chaque jour
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 px-2">
+              {language === 'fr' ? 'Des milliers de voyageurs nous font confiance chaque jour' : 'Thousands of travelers trust us every day'}
             </p>
           </motion.div>
 
@@ -312,17 +314,17 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-2xl transition"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-100 dark:border-gray-700"
               >
                 <div className="flex gap-1 mb-3 sm:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 italic">&quot;{testimonial.comment}&quot;</p>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 italic">&quot;{testimonial.comment}&quot;</p>
                 <div>
-                  <div className="font-semibold text-sm sm:text-base text-gray-900">{testimonial.name}</div>
-                  <div className="text-xs sm:text-sm text-gray-500">{testimonial.role}</div>
+                  <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white">{testimonial.name}</div>
+                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</div>
                 </div>
               </motion.div>
             ))}
@@ -351,7 +353,7 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link
                   href="/inscription"
-                  className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3 sm:py-4 font-bold text-base sm:text-lg hover:bg-yellow-300 transition shadow-md border-2 border-blue-900 inline-flex items-center gap-2 justify-center windows-button w-full sm:w-auto"
+                  className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-base sm:text-lg hover:bg-yellow-300 transition-all apple-button inline-flex items-center gap-2 justify-center w-full sm:w-auto"
                 >
                   Créer un compte gratuit
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -360,7 +362,7 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link
                   href="/reservation"
-                  className="bg-white/10 backdrop-blur-sm text-white px-6 sm:px-8 py-3 sm:py-4 font-bold text-base sm:text-lg hover:bg-white/20 transition border-2 border-white/50 inline-flex items-center gap-2 justify-center w-full sm:w-auto"
+                  className="apple-glass text-white px-6 sm:px-8 py-3 sm:py-4 font-semibold text-base sm:text-lg hover:bg-white/30 transition-all rounded-apple inline-flex items-center gap-2 justify-center w-full sm:w-auto border border-white/30"
                 >
                   Réserver sans compte
                   <Ticket className="w-4 h-4 sm:w-5 sm:h-5" />

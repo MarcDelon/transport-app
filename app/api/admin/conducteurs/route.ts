@@ -47,36 +47,50 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { nom, prenom, numeroPermis, experience } = body
 
+    console.log('📝 Création conducteur:', { nom, prenom, numeroPermis, experience })
+
     // Vérifier si le permis existe déjà
-    const { data: existing } = await supabase
+    const { data: existing, error: checkError } = await supabase
       .from('Conducteur')
       .select('id')
       .eq('numeroPermis', numeroPermis)
-      .single()
+      .maybeSingle()
+
+    if (checkError) {
+      console.error('Erreur vérification permis:', checkError)
+    }
 
     if (existing) {
+      console.log('❌ Numéro de permis déjà existant')
       return NextResponse.json(
         { error: 'Ce numéro de permis existe déjà' },
         { status: 400 }
       )
     }
 
+    // Générer un ID unique
+    const conducteurId = `conducteur_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
     const { data: conducteur, error } = await supabase
       .from('Conducteur')
       .insert({
+        id: conducteurId,
         nom,
         prenom,
         numeroPermis,
         experience: parseInt(experience),
+        createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       })
       .select()
       .single()
 
     if (error) {
+      console.error('❌ Erreur insertion:', error)
       throw error
     }
 
+    console.log('✅ Conducteur créé:', conducteur)
     return NextResponse.json(conducteur)
   } catch (error) {
     console.error('Erreur:', error)

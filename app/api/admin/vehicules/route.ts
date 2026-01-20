@@ -47,37 +47,51 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { numeroImmatriculation, marque, modele, capaciteMaximale, statut } = body
 
+    console.log('📝 Création véhicule:', { numeroImmatriculation, marque, modele, capaciteMaximale })
+
     // Vérifier si l'immatriculation existe déjà
-    const { data: existing } = await supabase
+    const { data: existing, error: checkError } = await supabase
       .from('Vehicule')
       .select('id')
       .eq('numeroImmatriculation', numeroImmatriculation)
-      .single()
+      .maybeSingle()
+
+    if (checkError) {
+      console.error('Erreur vérification immatriculation:', checkError)
+    }
 
     if (existing) {
+      console.log('❌ Numéro d\'immatriculation déjà existant')
       return NextResponse.json(
         { error: 'Ce numéro d\'immatriculation existe déjà' },
         { status: 400 }
       )
     }
 
+    // Générer un ID unique
+    const vehiculeId = `vehicule_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
     const { data: vehicule, error } = await supabase
       .from('Vehicule')
       .insert({
+        id: vehiculeId,
         numeroImmatriculation,
         marque,
         modele,
         capaciteMaximale: parseInt(capaciteMaximale),
         statut: statut || 'EN_SERVICE',
+        createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       })
       .select()
       .single()
 
     if (error) {
+      console.error('❌ Erreur insertion:', error)
       throw error
     }
 
+    console.log('✅ Véhicule créé:', vehicule)
     return NextResponse.json(vehicule)
   } catch (error) {
     console.error('Erreur:', error)

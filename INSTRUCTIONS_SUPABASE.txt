@@ -1,0 +1,42 @@
+# =====================================================
+# INSTRUCTIONS POUR CONNECTER L'APPLICATION À SUPABASE
+# =====================================================
+
+ÉTAPES À SUIVRE:
+
+1. Créer un compte Supabase (si pas déjà fait):
+   - Allez sur https://supabase.com
+   - Créez un nouveau projet
+   - Notez l'URL et les clés API
+
+2. Créer les tables dans Supabase:
+   - Allez dans SQL Editor de votre projet Supabase
+   - Exécutez le fichier: sql/01_creation_base_donnees.sql
+   - Puis exécutez: sql/02_peuplement_donnees.sql
+
+3. Configurer les variables d'environnement:
+   - Copiez le fichier .env.example vers .env.local
+   - Remplissez avec vos vraies clés Supabase:
+     * NEXT_PUBLIC_SUPABASE_URL
+     * NEXT_PUBLIC_SUPABASE_ANON_KEY
+     * SUPABASE_SERVICE_ROLE_KEY (optionnel)
+
+4. Redémarrer le serveur de développement:
+   - Arrêtez le serveur (Ctrl+C)
+   - Relancez: npm run dev
+
+FICHIERS CRÉÉS:
+✅ sql/01_creation_base_donnees.sql - Création des tables
+✅ sql/02_peuplement_donnees.sql - Données de test (50+ par table)
+✅ sql/03_requetes_avancees.sql - Requêtes SQL avancées
+✅ .env.example - Template de configuration
+
+LES API ROUTES SONT DÉJÀ CONFIGURÉES:
+✅ /api/trajets - Liste tous les trajets
+✅ /api/villes - Liste les villes disponibles
+✅ /api/trajets/search - Recherche d'horaires
+
+PROCHAINES ÉTAPES:
+1. Créez le fichier .env.local avec vos clés Supabase
+2. Exécutez les scripts SQL dans Supabase
+3. Redémarrez le serveur

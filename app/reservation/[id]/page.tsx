@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useParams } from 'next/navigation'
-import { MapPin, Calendar, Users, DollarSign, User } from 'lucide-react'
+import { MapPin, Calendar, Users, DollarSign, User, Package } from 'lucide-react'
+import BagageManager from '@/components/BagageManager'
 
 interface Horaire {
   id: string
@@ -28,6 +29,9 @@ export default function ReservationDetailPage() {
   const [nombrePlaces, setNombrePlaces] = useState(1)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [supplementBagages, setSupplementBagages] = useState(0)
+  const [reservationId, setReservationId] = useState<string | null>(null)
+  const [step, setStep] = useState<'details' | 'bagages' | 'confirmation'>('details')
 
   const fetchHoraire = useCallback(async () => {
     try {

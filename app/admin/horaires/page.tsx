@@ -91,10 +91,10 @@ export default function AdminHorairesPage() {
         conducteursRes.json(),
       ])
 
-      setHoraires(horairesData)
-      setTrajets(trajetsData)
-      setVehicules(vehiculesData.filter((v: Vehicule) => v.statut === 'EN_SERVICE'))
-      setConducteurs(conducteursData)
+      setHoraires(Array.isArray(horairesData) ? horairesData : [])
+      setTrajets(Array.isArray(trajetsData) ? trajetsData : [])
+      setVehicules(Array.isArray(vehiculesData) ? vehiculesData.filter((v: Vehicule) => v.statut === 'EN_SERVICE') : [])
+      setConducteurs(Array.isArray(conducteursData) ? conducteursData : [])
     } catch (error) {
       console.error('Erreur:', error)
     } finally {
@@ -111,6 +111,8 @@ export default function AdminHorairesPage() {
         : '/api/admin/horaires'
       const method = editingHoraire ? 'PATCH' : 'POST'
 
+      console.log('📤 Envoi des données:', formData)
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -123,7 +125,11 @@ export default function AdminHorairesPage() {
         }),
       })
 
+      const data = await response.json()
+      console.log('📥 Réponse:', data)
+
       if (response.ok) {
+        alert('Horaire créé avec succès !')
         setShowForm(false)
         setEditingHoraire(null)
         setFormData({
@@ -134,10 +140,12 @@ export default function AdminHorairesPage() {
           dateArrivee: '',
         })
         fetchData()
+      } else {
+        alert(data.error || 'Une erreur est survenue')
       }
     } catch (error) {
-      console.error('Erreur:', error)
-      alert('Une erreur est survenue')
+      console.error('❌ Erreur:', error)
+      alert('Une erreur est survenue lors de la création de l\'horaire')
     }
   }
 

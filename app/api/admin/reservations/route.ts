@@ -21,14 +21,18 @@ export async function GET(request: Request) {
       .from('Reservation')
       .select(`
         *,
-        User:userId (
+        user:User!userId (
           nom,
           prenom,
           email
         ),
-        Horaire (
-          *,
-          Trajet (*)
+        horaire:Horaire!horaireId (
+          dateDepart,
+          dateArrivee,
+          trajet:Trajet!trajetId (
+            villeDepart,
+            villeArrivee
+          )
         )
       `)
       .order('createdAt', { ascending: false })
@@ -40,7 +44,13 @@ export async function GET(request: Request) {
     const { data: reservations, error } = await query
 
     if (error) {
+      console.error('Erreur Supabase:', error)
       throw error
+    }
+
+    console.log('Réservations récupérées:', reservations?.length || 0)
+    if (reservations && reservations.length > 0) {
+      console.log('Exemple de réservation:', JSON.stringify(reservations[0], null, 2))
     }
 
     return NextResponse.json(reservations || [])

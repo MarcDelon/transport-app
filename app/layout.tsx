@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import Navbar from '@/components/Navbar'
-
-const inter = Inter({ subsets: ['latin'] })
+import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
   title: 'NOVA - Transport Interurbain',
@@ -17,11 +15,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr">
-      <body className={inter.className}>
+    <html lang="fr" suppressHydrationWarning>
+      <body className="font-sf antialiased">
         <Providers>
-          <Navbar />
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

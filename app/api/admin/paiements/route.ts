@@ -20,33 +20,50 @@ export async function GET() {
       .from('Paiement')
       .select(`
         *,
-        User:userId (nom, prenom, email),
-        Reservation (id, nombrePlaces, Horaire (id, Trajet (villeDepart, villeArrivee)))
+        user:User!userId (nom, prenom, email),
+        reservation:Reservation!reservationId (
+          id,
+          nombrePlaces,
+          horaire:Horaire!horaireId (
+            id,
+            trajet:Trajet!trajetId (
+              villeDepart,
+              villeArrivee
+            )
+          )
+        )
       `)
       .order('datePaiement', { ascending: false })
 
     if (error) {
+      console.error('❌ Erreur Supabase paiements:', error)
       throw error
     }
 
-    const totalRevenus = paiements.reduce((sum, p) => sum + parseFloat(p.montant), 0)
+    console.log('✅ Paiements récupérés:', paiements?.length || 0)
+    if (paiements && paiements.length > 0) {
+      console.log('Exemple de paiement:', JSON.stringify(paiements[0], null, 2))
+    }
+
+    const totalRevenus = paiements?.reduce((sum, p) => sum + parseFloat(p.montant), 0) || 0
 
     return NextResponse.json({
-      paiements: paiements.map(p => ({
+      paiements: paiements?.map(p => ({
         id: p.id,
         montant: parseFloat(p.montant),
-        methodePaiement: p.methodePaiement,
+        methodePaiement: p.methodePaiement || null,
+        statut: p.statut || 'EN_ATTENTE',
         datePaiement: new Date(p.datePaiement).toISOString(),
         numeroFacture: p.numeroFacture,
-        user: p.user,
-        reservation: {
+        user: p.user || null,
+        reservation: p.reservation ? {
           id: p.reservation.id,
           nombrePlaces: p.reservation.nombrePlaces,
-          horaire: {
-            trajet: p.reservation.horaire.trajet,
-          },
-        },
-      })),
+          horaire: p.reservation.horaire ? {
+            trajet: p.reservation.horaire.trajet || null,
+          } : null,
+        } : null,
+      })) || [],
 
       totalRevenus,
     })

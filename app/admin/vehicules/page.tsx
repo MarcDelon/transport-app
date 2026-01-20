@@ -47,9 +47,16 @@ export default function AdminVehiculesPage() {
     try {
       const response = await fetch('/api/admin/vehicules')
       const data = await response.json()
-      setVehicules(data)
+      // S'assurer que data est un tableau
+      if (Array.isArray(data)) {
+        setVehicules(data)
+      } else {
+        console.error('Les données reçues ne sont pas un tableau:', data)
+        setVehicules([])
+      }
     } catch (error) {
       console.error('Erreur:', error)
+      setVehicules([])
     } finally {
       setLoading(false)
     }

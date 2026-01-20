@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Ticket, Calendar, DollarSign, User, Plus } from 'lucide-react'
+import { Ticket, Calendar, DollarSign, User, Plus, Settings } from 'lucide-react'
 
 interface Reservation {
   id: string
@@ -109,13 +109,20 @@ export default function ClientDashboard() {
         </div>
 
         {/* Actions rapides */}
-        <div className="mb-4 sm:mb-6 md:mb-8">
+        <div className="mb-4 sm:mb-6 md:mb-8 flex flex-wrap gap-3">
           <Link
             href="/reservation"
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 hover:bg-blue-700 transition border border-blue-700 shadow-sm windows-button text-sm sm:text-base"
           >
             <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
             Nouvelle réservation
+          </Link>
+          <Link
+            href="/client/profil"
+            className="inline-flex items-center gap-2 bg-white text-gray-700 px-4 sm:px-6 py-2 sm:py-3 hover:bg-gray-50 transition border border-gray-300 shadow-sm windows-button text-sm sm:text-base"
+          >
+            <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
+            Mon profil
           </Link>
         </div>
 

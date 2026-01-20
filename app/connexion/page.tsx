@@ -4,8 +4,10 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { AlertCircle, CheckCircle } from 'lucide-react'
+import { AlertCircle, CheckCircle, Mail, Lock, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import Logo from '@/components/Logo'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function ConnexionPage() {
   const router = useRouter()
@@ -15,6 +17,7 @@ export default function ConnexionPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { t } = useLanguage()
 
   // Récupérer le paramètre redirect depuis l'URL
   const redirect = searchParams?.get('redirect') || null
@@ -65,6 +68,8 @@ export default function ConnexionPage() {
           window.location.href = redirect
         } else if (session?.user?.role === 'ADMIN') {
           window.location.href = '/admin/dashboard'
+        } else if (session?.user?.role === 'CONDUCTEUR') {
+          window.location.href = '/conducteur/dashboard'
         } else {
           window.location.href = '/client/dashboard'
         }
@@ -84,22 +89,24 @@ export default function ConnexionPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <div className="flex justify-center mb-6">
-            <Logo showText={true} size="lg" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-md w-full"
+      >
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-6">
+              <Logo showText={true} size="lg" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              {t('auth.login.title')}
+            </h2>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              {t('auth.login.subtitle')}
+            </p>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Connectez-vous à votre compte NOVA
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Ou{' '}
-            <Link href="/inscription" className="font-medium text-blue-600 hover:text-blue-500">
-              créez un nouveau compte
-            </Link>
-          </p>
-        </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded flex items-center gap-2">
@@ -113,52 +120,71 @@ export default function ConnexionPage() {
               <span>Connexion réussie ! Redirection en cours...</span>
             </div>
           )}
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
-                Adresse email
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t('auth.email')}
               </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Adresse email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="exemple@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
-                Mot de passe
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {t('auth.password')}
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-blue-700 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm windows-button"
-            >
-              {loading ? 'Connexion...' : 'Se connecter'}
-            </button>
+          <div className="flex items-center justify-end">
+            <Link href="#" className="text-sm text-blue-600 hover:text-blue-500">
+              {t('auth.forgotPassword')}
+            </Link>
           </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-semibold bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {loading ? t('common.loading') : t('auth.loginButton')}
+            {!loading && <ArrowRight className="w-5 h-5" />}
+          </button>
         </form>
-      </div>
+
+          <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+            {t('auth.noAccount')}{' '}
+            <Link href="/inscription" className="font-medium text-blue-600 hover:text-blue-500">
+              {t('auth.registerButton')}
+            </Link>
+          </p>
+        </div>
+      </motion.div>
     </div>
   )
 }

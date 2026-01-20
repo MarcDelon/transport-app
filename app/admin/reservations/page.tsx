@@ -198,17 +198,23 @@ export default function AdminReservationsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {reservation.horaire.trajet.villeDepart} → {reservation.horaire.trajet.villeArrivee}
+                        {reservation.horaire?.trajet ? 
+                          `${reservation.horaire.trajet.villeDepart} → ${reservation.horaire.trajet.villeArrivee}` : 
+                          'Trajet supprimé'
+                        }
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(reservation.horaire.dateDepart).toLocaleDateString('fr-FR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
+                      {reservation.horaire?.dateDepart ? 
+                        new Date(reservation.horaire.dateDepart).toLocaleDateString('fr-FR', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }) : 
+                        'N/A'
+                      }
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {reservation.nombrePlaces}
