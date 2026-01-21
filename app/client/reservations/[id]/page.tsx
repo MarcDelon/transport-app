@@ -284,7 +284,7 @@ export default function ReservationDetailPage() {
                 <AlertTriangle className="w-5 h-5 text-yellow-400 mr-2" />
                 <div>
                   <p className="text-sm text-yellow-700 font-medium mb-2">
-                    Conditions d'annulation :
+                    Conditions d&apos;annulation :
                   </p>
                   <ul className="text-sm text-yellow-700 space-y-1">
                     <li>• Plus de 48h avant : remboursement de 90%</li>
@@ -310,7 +310,7 @@ export default function ReservationDetailPage() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg p-6 max-w-md w-full">
               <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Confirmer l'annulation
+                Confirmer l&apos;annulation
               </h2>
               <p className="text-gray-600 mb-4">
                 Êtes-vous sûr de vouloir annuler cette réservation ?
@@ -323,7 +323,7 @@ export default function ReservationDetailPage() {
                   Montant remboursé : {Math.round(total * calculateRefundInfo().pourcentage / 100).toLocaleString('fr-FR')} FCFA
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  Frais d'annulation : {Math.round(total * (100 - calculateRefundInfo().pourcentage) / 100).toLocaleString('fr-FR')} FCFA
+                  Frais d&apos;annulation : {Math.round(total * (100 - calculateRefundInfo().pourcentage) / 100).toLocaleString('fr-FR')} FCFA
                 </p>
               </div>
               <div className="flex gap-3">
@@ -332,7 +332,7 @@ export default function ReservationDetailPage() {
                   disabled={cancelling}
                   className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition disabled:bg-gray-400"
                 >
-                  {cancelling ? 'Annulation...' : 'Confirmer l\'annulation'}
+                  {cancelling ? 'Annulation...' : 'Confirmer l&apos;annulation'}
                 </button>
                 <button
                   onClick={() => setShowCancelModal(false)}
@@ -367,7 +367,7 @@ export default function ReservationDetailPage() {
                   <span className="font-medium">{cancelResult.remboursement.montantTotal.toLocaleString('fr-FR')} FCFA</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Frais d'annulation :</span>
+                  <span className="text-gray-600">Frais d&apos;annulation :</span>
                   <span className="font-medium text-red-600">-{cancelResult.remboursement.fraisAnnulation.toLocaleString('fr-FR')} FCFA</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold border-t pt-2">

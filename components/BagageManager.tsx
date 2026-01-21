@@ -149,8 +149,8 @@ export default function BagageManager({ reservationId, onBagagesChange }: Bagage
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm">
         <p className="font-medium text-blue-900 mb-2">📦 Franchise bagages :</p>
         <ul className="text-blue-800 space-y-1">
-          <li>• <strong>Bagage à main</strong> : gratuit jusqu'à 10 kg (300 FCFA/kg supplémentaire)</li>
-          <li>• <strong>Bagage en soute</strong> : gratuit jusqu'à 20 kg (500 FCFA/kg supplémentaire)</li>
+          <li>• <strong>Bagage à main</strong> : gratuit jusqu&apos;à 10 kg (300 FCFA/kg supplémentaire)</li>
+          <li>• <strong>Bagage en soute</strong> : gratuit jusqu&apos;à 20 kg (500 FCFA/kg supplémentaire)</li>
         </ul>
       </div>
 
@@ -167,8 +167,8 @@ export default function BagageManager({ reservationId, onBagagesChange }: Bagage
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               required
             >
-              <option value="MAIN">Bagage à main (gratuit jusqu'à 10 kg)</option>
-              <option value="SOUTE">Bagage en soute (gratuit jusqu'à 20 kg)</option>
+              <option value="MAIN">Bagage à main (gratuit jusqu&apos;à 10 kg)</option>
+              <option value="SOUTE">Bagage en soute (gratuit jusqu&apos;à 20 kg)</option>
             </select>
           </div>
 

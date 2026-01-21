@@ -301,7 +301,7 @@ export default function TrajetDetailPage() {
             Validation des billets
           </h3>
           <p className="text-gray-600 mb-4">
-            Scannez le QR code des billets pour valider l'embarquement des passagers
+            Scannez le QR code des billets pour valider l&apos;embarquement des passagers
           </p>
           <button
             onClick={() => setShowScanner(!showScanner)}
