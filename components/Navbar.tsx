@@ -22,9 +22,9 @@ export default function Navbar() {
   const isActive = (path: string) => pathname === path
 
   return (
-    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
-      <div className="w-full px-4 sm:px-6">
-        <div className="flex justify-between items-center h-16">
+    <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
+      <div className="container mx-auto px-3 sm:px-4">
+        <div className="flex justify-between items-center h-14 sm:h-16">
           <Link href="/" className="hover:opacity-80 transition">
             <Logo showText={true} size="md" />
           </Link>

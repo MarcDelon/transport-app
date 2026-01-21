@@ -151,36 +151,36 @@ export default function ReservationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 overflow-x-hidden w-full">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16 overflow-hidden w-full">
+      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920&q=80')] bg-cover bg-center opacity-30"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-blue-800/60"></div>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-3xl mx-auto w-full px-4"
+            className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               {t('reservation.title')}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-blue-100">
+            <p className="text-lg md:text-xl text-blue-100">
               {t('reservation.subtitle')}
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <div className="container mx-auto px-4 sm:px-6 py-8 md:py-12">
         {/* Formulaire de recherche */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 mb-8 border border-gray-100 dark:border-gray-700 w-full"
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 mb-8 border border-gray-100 dark:border-gray-700"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Ville de départ */}
             <div className="relative">
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
@@ -204,7 +204,7 @@ export default function ReservationPage() {
                     setTimeout(() => setShowDepartDropdown(false), 150)
                   }}
                   placeholder="Tapez ou sélectionnez une ville"
-                  className={`w-full px-4 py-3 pr-10 border-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-blue-500 text-base ${
+                  className={`w-full px-4 py-3 pr-10 border-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     villeDepart && villesDepart.includes(villeDepart)
                       ? 'border-blue-500 bg-blue-50' 
                       : 'border-gray-200 hover:border-gray-300'
@@ -274,7 +274,7 @@ export default function ReservationPage() {
                     setTimeout(() => setShowArriveeDropdown(false), 150)
                   }}
                   placeholder="Tapez ou sélectionnez une ville"
-                  className={`w-full px-4 py-3 pr-10 border-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-green-500 text-base ${
+                  className={`w-full px-4 py-3 pr-10 border-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-green-500 ${
                     villeArrivee && villesArrivee.includes(villeArrivee)
                       ? 'border-green-500 bg-green-50' 
                       : 'border-gray-200 hover:border-gray-300'
@@ -330,7 +330,7 @@ export default function ReservationPage() {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className={`w-full px-4 py-3 border-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-purple-500 text-base ${
+                className={`w-full px-4 py-3 border-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-purple-500 ${
                   date 
                     ? 'border-purple-500 bg-purple-50' 
                     : 'border-gray-200 hover:border-gray-300'

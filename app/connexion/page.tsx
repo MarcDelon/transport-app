@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 import Logo from '@/components/Logo'
 import { useLanguage } from '@/contexts/LanguageContext'
 
-function ConnexionForm() {
+export default function ConnexionPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
@@ -54,23 +54,32 @@ function ConnexionForm() {
         setError('')
         setSuccess(true)
         
-        // Attendre un peu pour que la session soit mise à jour
-        await new Promise(resolve => setTimeout(resolve, 800))
+        // Attendre que la session soit complètement mise à jour
+        await new Promise(resolve => setTimeout(resolve, 1500))
         
         // Récupérer la session pour vérifier le rôle
-        const response = await fetch('/api/auth/session')
+        const response = await fetch('/api/auth/session', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          }
+        })
         const session = await response.json()
         
-        console.log('Session récupérée:', session)
+        console.log('Session récupérée après connexion:', session)
 
         // Rediriger selon le paramètre redirect ou le rôle
         if (redirect) {
+          console.log('Redirection vers:', redirect)
           window.location.href = redirect
         } else if (session?.user?.role === 'ADMIN') {
+          console.log('Redirection admin vers dashboard')
           window.location.href = '/admin/dashboard'
         } else if (session?.user?.role === 'CONDUCTEUR') {
+          console.log('Redirection conducteur vers dashboard')
           window.location.href = '/conducteur/dashboard'
         } else {
+          console.log('Redirection client vers dashboard')
           window.location.href = '/client/dashboard'
         }
       } else {
@@ -186,18 +195,6 @@ function ConnexionForm() {
         </div>
       </motion.div>
     </div>
-  )
-}
-
-export default function ConnexionPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-        <div className="text-xl">Chargement...</div>
-      </div>
-    }>
-      <ConnexionForm />
-    </Suspense>
   )
 }
 

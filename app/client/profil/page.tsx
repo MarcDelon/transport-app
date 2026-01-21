@@ -212,7 +212,7 @@ export default function ClientProfilPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <CreditCard className="w-4 h-4 inline mr-2" />
-                Numéro de pièce d&apos;identité (optionnel)
+                Numéro de pièce d'identité (optionnel)
               </label>
               <input
                 type="text"

@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 import './globals.css'
 import { Providers } from './providers'
 import Navbar from '@/components/Navbar'
@@ -7,13 +7,6 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'NOVA - Transport Interurbain',
   description: 'Réservez vos billets de transport interurbain avec NOVA. Voyagez en toute sérénité vers votre destination.',
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: '#2563eb',
 }
 
 export default function RootLayout({

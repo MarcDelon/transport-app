@@ -65,19 +65,19 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 overflow-x-hidden">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section avec image de fond */}
-      <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-12 sm:py-16 md:py-24 overflow-hidden w-full">
+      <section className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-12 sm:py-16 md:py-24 overflow-hidden">
         {/* Image de fond avec overlay */}
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920&q=80')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-800/50"></div>
         
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto w-full"
+            className="text-center max-w-4xl mx-auto"
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -87,19 +87,19 @@ export default function Home() {
             >
               <Logo showText={true} size="lg" className="text-white" />
             </motion.div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight px-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight px-2">
               Voyagez en toute{' '}
               <span className="text-yellow-400">sérénité</span>
             </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 text-blue-100 px-4 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-blue-100 px-2">
               Réservez vos billets de transport interurbain facilement et rapidement.
               Voyagez confortablement vers votre destination avec NOVA.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 max-w-md mx-auto sm:max-w-none">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link
                   href="/reservation"
-                  className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3.5 sm:py-4 font-semibold text-sm sm:text-base md:text-lg hover:bg-yellow-300 transition-all rounded-xl flex items-center gap-2 justify-center w-full sm:w-auto shadow-lg"
+                  className="bg-yellow-400 text-blue-900 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-base sm:text-lg hover:bg-yellow-300 transition-all apple-button flex items-center gap-2 justify-center w-full sm:w-auto"
                 >
                   Réserver maintenant
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -108,7 +108,7 @@ export default function Home() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link
                   href="/trajets"
-                  className="bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-3.5 sm:py-4 font-semibold text-sm sm:text-base md:text-lg hover:bg-white/30 transition-all rounded-xl flex items-center gap-2 justify-center w-full sm:w-auto border border-white/30"
+                  className="apple-glass text-white px-6 sm:px-8 py-3 sm:py-4 font-semibold text-base sm:text-lg hover:bg-white/30 transition-all rounded-apple flex items-center gap-2 justify-center w-full sm:w-auto border border-white/30"
                 >
                   Voir les trajets
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -127,9 +127,9 @@ export default function Home() {
       </section>
 
       {/* Statistiques */}
-      <section className="py-8 sm:py-12 md:py-16 bg-white dark:bg-gray-900 w-full overflow-hidden">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 w-full">
+      <section className="py-8 sm:py-12 md:py-16 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -150,8 +150,8 @@ export default function Home() {
       </section>
 
       {/* Features Section avec images */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 w-full overflow-hidden">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -193,8 +193,8 @@ export default function Home() {
       </section>
 
       {/* Section avec image et avantages */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900 w-full overflow-hidden">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}

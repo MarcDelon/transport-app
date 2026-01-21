@@ -79,43 +79,43 @@ export default function TrajetsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 overflow-x-hidden w-full">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16 overflow-hidden w-full">
+      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1920&q=80')] bg-cover bg-center opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-blue-800/60"></div>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-3xl mx-auto w-full px-4"
+            className="text-center max-w-3xl mx-auto"
           >
-            <Bus className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-yellow-400" />
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            <Bus className="w-16 h-16 mx-auto mb-4 text-yellow-400" />
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               {t('routes.title')}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-blue-100">
+            <p className="text-lg md:text-xl text-blue-100">
               {t('routes.subtitle')}
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <div className="container mx-auto px-4 sm:px-6 py-8 md:py-12">
         {/* Barre de recherche */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="relative max-w-md mx-auto w-full">
+          <div className="relative max-w-md mx-auto">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
               placeholder="Rechercher une ville..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+              className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </motion.div>
@@ -138,7 +138,7 @@ export default function TrajetsPage() {
             <p className="text-gray-500 dark:text-gray-400 mt-2">Essayez avec une autre recherche</p>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTrajets.map((trajet, index) => (
               <motion.div
                 key={trajet.id}
@@ -146,7 +146,7 @@ export default function TrajetsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 whileHover={{ y: -5 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700 w-full"
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border border-gray-100 dark:border-gray-700"
               >
                 {/* En-tête avec villes */}
                 <div className="flex items-center justify-between mb-4">

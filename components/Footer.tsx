@@ -96,7 +96,7 @@ export default function Footer() {
                 type="submit"
                 className="px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-colors"
               >
-                S&apos;abonner
+                S'abonner
               </button>
             </form>
           </div>
@@ -110,7 +110,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                Conditions d&apos;utilisation
+                Conditions d'utilisation
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 Politique de confidentialité
