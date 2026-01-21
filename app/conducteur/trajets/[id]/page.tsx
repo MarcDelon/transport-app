@@ -301,7 +301,7 @@ export default function TrajetDetailPage() {
             Validation des billets
           </h3>
           <p className="text-gray-600 mb-4">
-            Scannez le QR code des billets pour valider l'embarquement des passagers
+            Scannez le QR code des billets pour valider l&apos;embarquement des passagers
           </p>
           <button
             onClick={() => setShowScanner(!showScanner)}
@@ -373,19 +373,21 @@ export default function TrajetDetailPage() {
                       <p className="font-semibold text-lg">
                         {reservation.user.prenom} {reservation.user.nom}
                       </p>
-                      <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
-                        <span className="flex items-center gap-1">
-                          <Phone className="w-4 h-4" />
-                          {reservation.user.telephone}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Mail className="w-4 h-4" />
-                          {reservation.user.email}
-                        </span>
+                      <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                        <Phone className="w-4 h-4" />
+                        <span>{reservation.user.telephone}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Mail className="w-4 h-4" />
+                        <span>{reservation.user.email}</span>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatutColor(reservation.statut)}`}>
-                      {reservation.statut === 'CONFIRMEE' ? 'Confirmée' :
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      reservation.statut === 'VALIDEE' ? 'bg-green-100 text-green-800' :
+                      reservation.statut === 'EN_ATTENTE' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {reservation.statut === 'VALIDEE' ? 'Validée' :
                        reservation.statut === 'EN_ATTENTE' ? 'En attente' :
                        'Annulée'}
                     </span>

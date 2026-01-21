@@ -167,8 +167,8 @@ export default function BagageManager({ reservationId, onBagagesChange }: Bagage
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               required
             >
-              <option value="MAIN">Bagage à main (gratuit jusqu'à 10 kg)</option>
-              <option value="SOUTE">Bagage en soute (gratuit jusqu'à 20 kg)</option>
+              <option value="MAIN">Bagage à main (gratuit jusqu&apos;à 10 kg)</option>
+              <option value="SOUTE">Bagage en soute (gratuit jusqu&apos;à 20 kg)</option>
             </select>
           </div>
 

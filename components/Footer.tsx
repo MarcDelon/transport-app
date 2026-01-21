@@ -94,9 +94,9 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-colors"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                S'abonner
+                S&apos;abonner
               </button>
             </form>
           </div>
@@ -106,12 +106,12 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} NOVA Transport. {t('footer.rights')}
+              &copy; {new Date().getFullYear()} NOVA Transport. {t('footer.rights')}
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                Conditions d'utilisation
-              </a>
+              <Link href="/conditions" className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                Conditions d&apos;utilisation
+              </Link>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 Politique de confidentialité
               </a>
