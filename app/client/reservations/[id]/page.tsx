@@ -284,7 +284,7 @@ export default function ReservationDetailPage() {
                 <AlertTriangle className="w-5 h-5 text-yellow-400 mr-2" />
                 <div>
                   <p className="text-sm text-yellow-700 font-medium mb-2">
-                    Conditions d'annulation :
+                    Conditions d&apos;annulation :
                   </p>
                   <ul className="text-sm text-yellow-700 space-y-1">
                     <li>• Plus de 48h avant : remboursement de 90%</li>
