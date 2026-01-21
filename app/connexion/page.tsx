@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 import Logo from '@/components/Logo'
 import { useLanguage } from '@/contexts/LanguageContext'
 
-export default function ConnexionPage() {
+function ConnexionForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
@@ -186,6 +186,18 @@ export default function ConnexionPage() {
         </div>
       </motion.div>
     </div>
+  )
+}
+
+export default function ConnexionPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="text-xl">Chargement...</div>
+      </div>
+    }>
+      <ConnexionForm />
+    </Suspense>
   )
 }
 
