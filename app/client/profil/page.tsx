@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { User, Mail, Phone, CreditCard, Save, ArrowLeft } from 'lucide-react'
@@ -15,7 +15,7 @@ interface UserProfile {
 }
 
 export default function ClientProfilPage() {
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
   const router = useRouter()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
@@ -85,6 +85,16 @@ export default function ClientProfilPage() {
       if (response.ok) {
         setProfile(data)
         setMessage({ type: 'success', text: 'Profil mis à jour avec succès !' })
+        
+        // Rafraîchir la session pour mettre à jour le nom affiché
+        await update({
+          ...session,
+          user: {
+            ...session?.user,
+            name: `${data.prenom} ${data.nom}`,
+          }
+        })
+        
         setTimeout(() => setMessage(null), 3000)
       } else {
         setMessage({ type: 'error', text: data.error || 'Une erreur est survenue' })

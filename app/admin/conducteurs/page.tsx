@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { User, Plus, Edit, Trash2 } from 'lucide-react'
+import { User, Plus, Edit, Trash2, Search } from 'lucide-react'
 
 interface Conducteur {
   id: string
@@ -20,6 +20,7 @@ export default function AdminConducteursPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingConducteur, setEditingConducteur] = useState<Conducteur | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -119,6 +120,14 @@ export default function AdminConducteursPage() {
     }
   }
 
+  // Filtrer les conducteurs selon la recherche
+  const filteredConducteurs = conducteurs.filter((conducteur) => {
+    const fullName = `${conducteur.prenom} ${conducteur.nom}`.toLowerCase()
+    const query = searchQuery.toLowerCase()
+    return fullName.includes(query) || 
+           conducteur.numeroPermis.toLowerCase().includes(query)
+  })
+
   if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -150,6 +159,25 @@ export default function AdminConducteursPage() {
             <Plus className="w-5 h-5" />
             Ajouter un conducteur
           </button>
+        </div>
+
+        {/* Barre de recherche */}
+        <div className="mb-6">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Rechercher par nom ou numéro de permis..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          {searchQuery && (
+            <p className="text-sm text-gray-600 mt-2">
+              {filteredConducteurs.length} résultat{filteredConducteurs.length > 1 ? 's' : ''} trouvé{filteredConducteurs.length > 1 ? 's' : ''}
+            </p>
+          )}
         </div>
 
         {/* Formulaire */}
@@ -250,40 +278,50 @@ export default function AdminConducteursPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {conducteurs.map((conducteur) => (
-                  <tr key={conducteur.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <User className="w-5 h-5 text-blue-600" />
-                        <span className="font-medium">
-                          {conducteur.prenom} {conducteur.nom}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {conducteur.numeroPermis}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {conducteur.experience} ans
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleEdit(conducteur)}
-                          className="text-blue-600 hover:text-blue-900"
-                        >
-                          <Edit className="w-5 h-5" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(conducteur.id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
-                      </div>
+                {filteredConducteurs.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                      {searchQuery 
+                        ? 'Aucun conducteur trouvé pour cette recherche'
+                        : 'Aucun conducteur enregistré'}
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  filteredConducteurs.map((conducteur) => (
+                    <tr key={conducteur.id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <User className="w-5 h-5 text-blue-600" />
+                          <span className="font-medium">
+                            {conducteur.prenom} {conducteur.nom}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {conducteur.numeroPermis}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {conducteur.experience} ans
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleEdit(conducteur)}
+                            className="text-blue-600 hover:text-blue-900"
+                          >
+                            <Edit className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(conducteur.id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
