@@ -7,6 +7,13 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'NOVA - Transport Interurbain',
   description: 'Réservez vos billets de transport interurbain avec NOVA. Voyagez en toute sérénité vers votre destination.',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
+  themeColor: '#2563eb',
 }
 
 export default function RootLayout({
