@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useParams } from 'next/navigation'
-import { MapPin, Calendar, Users, DollarSign, User, Package } from 'lucide-react'
+import { MapPin, Calendar, Users, DollarSign, User, Package, ArrowLeft } from 'lucide-react'
 import BagageManager from '@/components/BagageManager'
+import BusSeatSelector from '@/components/BusSeatSelector'
 
 interface Horaire {
   id: string
@@ -31,7 +32,8 @@ export default function ReservationDetailPage() {
   const [submitting, setSubmitting] = useState(false)
   const [supplementBagages, setSupplementBagages] = useState(0)
   const [reservationId, setReservationId] = useState<string | null>(null)
-  const [step, setStep] = useState<'details' | 'bagages' | 'confirmation'>('details')
+  const [step, setStep] = useState<'details' | 'sieges' | 'confirmation'>('details')
+  const [siegesSelectionnes, setSiegesSelectionnes] = useState<number[]>([])
 
   const fetchHoraire = useCallback(async () => {
     try {
@@ -53,12 +55,25 @@ export default function ReservationDetailPage() {
     fetchHoraire()
   }, [session, router, fetchHoraire, params.id])
 
+  const handleContinuerVersSelection = () => {
+    if (nombrePlaces < 1 || nombrePlaces > horaire!.placesDisponibles) {
+      alert('Nombre de places invalide')
+      return
+    }
+    setStep('sieges')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!horaire) return
 
     if (nombrePlaces > horaire.placesDisponibles) {
       alert('Pas assez de places disponibles')
+      return
+    }
+
+    if (siegesSelectionnes.length !== nombrePlaces) {
+      alert(`Veuillez sélectionner exactement ${nombrePlaces} siège(s)`)
       return
     }
 
@@ -73,6 +88,7 @@ export default function ReservationDetailPage() {
         body: JSON.stringify({
           horaireId: horaire.id,
           nombrePlaces,
+          sieges: siegesSelectionnes,
         }),
       })
 
@@ -114,10 +130,24 @@ export default function ReservationDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-6 md:py-8">
-      <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 md:mb-8 px-2">Finaliser la réservation</h1>
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+        <div className="flex items-center gap-4 mb-4 sm:mb-6 md:mb-8">
+          {step === 'sieges' && (
+            <button
+              onClick={() => setStep('details')}
+              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Retour
+            </button>
+          )}
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            {step === 'details' ? 'Finaliser la réservation' : 'Sélectionnez vos sièges'}
+          </h1>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+        {step === 'details' ? (
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {/* Détails du trajet */}
           <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
             <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Détails du trajet</h2>
@@ -192,15 +222,70 @@ export default function ReservationDetailPage() {
               </div>
 
               <button
-                type="submit"
-                disabled={submitting || nombrePlaces > horaire.placesDisponibles}
+                type="button"
+                onClick={handleContinuerVersSelection}
+                disabled={nombrePlaces < 1 || nombrePlaces > horaire.placesDisponibles}
                 className="w-full bg-blue-600 text-white px-5 sm:px-6 py-2.5 sm:py-3 hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed border border-blue-700 shadow-sm windows-button text-sm sm:text-base"
               >
-                {submitting ? 'Traitement...' : 'Confirmer la réservation'}
+                Continuer vers la sélection des sièges
               </button>
             </form>
           </div>
         </div>
+        ) : (
+          <div className="space-y-6">
+            {/* Résumé de la réservation */}
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <h2 className="text-lg font-semibold mb-4">Résumé de votre réservation</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-600">Trajet</span>
+                  <p className="font-semibold">{horaire.trajet.villeDepart} → {horaire.trajet.villeArrivee}</p>
+                </div>
+                <div>
+                  <span className="text-gray-600">Date</span>
+                  <p className="font-semibold">
+                    {new Date(horaire.dateDepart).toLocaleDateString('fr-FR', {
+                      day: '2-digit',
+                      month: 'short'
+                    })}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-gray-600">Places</span>
+                  <p className="font-semibold">{nombrePlaces}</p>
+                </div>
+                <div>
+                  <span className="text-gray-600">Total</span>
+                  <p className="font-semibold text-blue-600">{total.toLocaleString('fr-FR')} FCFA</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Sélecteur de sièges */}
+            <BusSeatSelector
+              horaireId={horaire.id}
+              nombrePlacesMax={nombrePlaces}
+              onSiegesSelected={setSiegesSelectionnes}
+            />
+
+            {/* Bouton de confirmation */}
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <button
+                onClick={handleSubmit}
+                disabled={submitting || siegesSelectionnes.length !== nombrePlaces}
+                className="w-full bg-blue-600 text-white px-5 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed border border-blue-700 shadow-sm windows-button"
+              >
+                {submitting ? 'Traitement...' : `Confirmer la réservation (${siegesSelectionnes.length}/${nombrePlaces} sièges)`}
+              </button>
+              {siegesSelectionnes.length !== nombrePlaces && (
+                <p className="text-center text-sm text-gray-600 mt-3">
+                  Sélectionnez {nombrePlaces - siegesSelectionnes.length} siège(s) supplémentaire(s)
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

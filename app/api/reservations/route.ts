@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    const { horaireId, nombrePlaces } = body
+    const { horaireId, nombrePlaces, sieges } = body
 
     // Vérifier l'horaire
     const { data: horaire, error: horaireError } = await supabase
@@ -72,6 +72,38 @@ export async function POST(request: Request) {
       )
     }
 
+    // Vérifier que les sièges sélectionnés sont disponibles
+    if (sieges && sieges.length > 0) {
+      // Vérifier que le nombre de sièges correspond
+      if (sieges.length !== nombrePlaces) {
+        return NextResponse.json(
+          { error: 'Le nombre de sièges sélectionnés ne correspond pas au nombre de places' },
+          { status: 400 }
+        )
+      }
+
+      // Vérifier que les sièges ne sont pas déjà réservés
+      const { data: siegesExistants } = await supabase
+        .from('Siege')
+        .select(`
+          numeroSiege,
+          Reservation!inner (statut)
+        `)
+        .eq('horaireId', horaireId)
+        .in('numeroSiege', sieges)
+
+      const siegesOccupes = siegesExistants?.filter((s: any) => 
+        s.Reservation.statut === 'CONFIRMEE' || s.Reservation.statut === 'EN_ATTENTE'
+      ).map((s: any) => s.numeroSiege) || []
+
+      if (siegesOccupes.length > 0) {
+        return NextResponse.json(
+          { error: `Les sièges suivants sont déjà occupés: ${siegesOccupes.join(', ')}` },
+          { status: 400 }
+        )
+      }
+    }
+
     // Générer un ID unique pour la réservation
     const reservationId = `reserv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -100,6 +132,34 @@ export async function POST(request: Request) {
     }
 
     console.log('✅ Réservation créée avec succès:', reservationId)
+
+    // Créer les sièges si spécifiés
+    if (sieges && sieges.length > 0) {
+      const siegesToInsert = sieges.map((numeroSiege: number) => ({
+        id: `siege_${Date.now()}_${numeroSiege}_${Math.random().toString(36).substr(2, 9)}`,
+        reservationId: reservation.id,
+        horaireId,
+        numeroSiege,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }))
+
+      const { error: siegesError } = await supabase
+        .from('Siege')
+        .insert(siegesToInsert)
+
+      if (siegesError) {
+        console.error('⚠️ Erreur lors de la création des sièges:', siegesError)
+        // Supprimer la réservation si les sièges n'ont pas pu être créés
+        await supabase.from('Reservation').delete().eq('id', reservation.id)
+        return NextResponse.json(
+          { error: 'Erreur lors de la réservation des sièges' },
+          { status: 500 }
+        )
+      }
+
+      console.log('✅ Sièges réservés:', sieges.join(', '))
+    }
 
     // Créer automatiquement un paiement EN_ATTENTE
     const paiementId = `paie_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`

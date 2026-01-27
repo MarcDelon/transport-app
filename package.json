@@ -10,13 +10,19 @@
     "create-admin": "tsx scripts/create-admin-supabase.ts",
     "hash-password": "tsx scripts/hash-password.ts",
     "update-password": "tsx scripts/update-user-password.ts",
-    "test-trajets": "tsx scripts/test-trajets.ts"
+    "test-trajets": "tsx scripts/test-trajets.ts",
+    "fix-horaires": "tsx scripts/fix-horaires-passes.ts",
+    "disable-date-check": "tsx scripts/disable-date-check.ts",
+    "fix-dates": "tsx scripts/solution-definitive-dates.ts",
+    "update-horaires": "tsx scripts/update-horaires-simple.ts",
+    "clean-horaires": "tsx scripts/nettoyer-horaires-passes.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@supabase/supabase-js": "^2.89.0",
     "bcryptjs": "^2.4.3",
     "date-fns": "^3.0.6",
+    "dotenv": "^17.2.3",
     "framer-motion": "^10.18.0",
     "jspdf": "^4.0.0",
     "lucide-react": "^0.303.0",
